@@ -1,0 +1,16 @@
+
+# default files
+tmp/
+cache/
+**/*.iml
+.~lock*
+.DS_Store
+.history
+.env
+.idea
+.vscode
+*.cache
+*.retry
+*.pyc
+*.csv
+*.swp
