@@ -1,6 +1,6 @@
 # VARIABLES
 IMAGE_NAME = debian
-IMAGE_VERSION = 11
+IMAGE_VERSION = 11-se
 
 DOCKER_REGISTRY = index.docker.io
 IMAGE_ORG = marcelofpfelix

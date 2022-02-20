@@ -1,6 +1,6 @@
 # VARIABLES
 IMAGE_NAME = debian
-IMAGE_VERSION = 11
+IMAGE_VERSION = 10
 
 DOCKER_REGISTRY = index.docker.io
 IMAGE_ORG = marcelofpfelix
@@ -45,8 +45,6 @@ push:
 	@echo MAKE pushing $(IT_I)
 	@docker tag $(IMAGE_TAG) $(IT_I)
 	@docker push $(IT_I)
-	@docker tag $(IMAGE_TAG) $(IMAGE_LATEST)
-	@docker push $(IMAGE_LATEST)
 
 run::
 	@echo running $(IMAGE_TAG)

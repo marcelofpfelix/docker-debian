@@ -1,15 +1,15 @@
-# Docker base image for debian 11
+# Docker base image for debian 10
 
-FROM debian:11-slim
+FROM debian:10-slim
 
-ENV REFRESHED_AT 2022-02-20
+ENV REFRESHED_AT 2022-02-12
 
 # #############################################################################
 # Arguments
-ARG OS_VERSION=bullseye
+ARG OS_VERSION=buster
 ARG FRR_VERSION=8
-ARG KAMAILIO_VERSION=55
-ARG S6_VERSION=3.0.0.2
+ARG KAMAILIO_VERSION=5.5.2
+ARG S6_VERSION=1.19.1.1
 ARG ENVTPL_VERSION=0.2.0
 
 ARG PACKAGES=" \
@@ -26,12 +26,11 @@ RUN set -o nounset -o errexit -o xtrace -o verbose && \
     apt-get upgrade -y && \
     apt-get install -y --no-install-recommends --no-install-suggests ${PACKAGES} && \
     # add frr repo
-    mkdir /usr/local/share/keyrings && \
-    curl -s https://deb.frrouting.org/frr/keys.asc | gpg --dearmor | dd of=/usr/local/share/keyrings/frr-archive-keyring.gpg && \
-    echo deb [signed-by=/usr/local/share/keyrings/frr-archive-keyring.gpg] https://deb.frrouting.org/frr ${OS_VERSION} frr-${FRR_VERSION} | tee -a /etc/apt/sources.list.d/frr.list && \
+    curl -s https://deb.frrouting.org/frr/keys.asc | apt-key add - && \
+    echo deb https://deb.frrouting.org/frr ${OS_VERSION} frr-${FRR_VERSION} | tee -a /etc/apt/sources.list.d/frr.list && \
     # add kamailio repo
-    curl -s http://deb.kamailio.org/kamailiodebkey.gpg | gpg --dearmor | dd of=/usr/local/share/keyrings/kamailio-archive-keyring.gpg && \
-    echo deb [signed-by=/usr/local/share/keyrings/kamailio-archive-keyring.gpg] http://deb.kamailio.org/kamailio${KAMAILIO_VERSION} ${OS_VERSION} main | tee -a /etc/apt/sources.list.d/kamailio.list && \
+    curl -s https://deb-archive.kamailio.org/kamailiodebkey.gpg | apt-key add - && \
+    echo deb https://deb-archive.kamailio.org/repos/kamailio-${KAMAILIO_VERSION} ${OS_VERSION} main | tee -a /etc/apt/sources.list.d/frr.list && \
     apt-get update && \
     apt-get autoremove --purge -y ${PACKAGES} && \
     apt-get clean
